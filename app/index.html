@@ -8,39 +8,102 @@
     <title>Document</title>
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="fonts/font-awesome/css/font-awesome.min.css">
-
+    <script src="libs/jquery-3.2.1.min.js"></script>
+    <style>
+        .reciver-green {
+            font-size: 50px;
+            color: green;
+            font-weight: 600;
+        }
+        .reciver-red {
+            font-size: 50px;
+            color: red;
+            font-weight: 600;
+        }
+        .name-reciver {
+            font-size: 50px;
+            color: #0f0f0f;
+        }
+    </style>
 </head>
 <body>
 
-    <div class="container-login">
+<div class="container-login">
 
-        <div class="wrapp-form">
-            <a href="#" class="login-logo">Hotesl24.ua</a>
+    <div class="wrapp-form">
+        <a href="#" class="login-logo">Hotesl24.ua</a>
 
-            <a href="#" class="login-close">&#10006;</a>
-            <!--<a href="#" class="login-close"><i class="fa fa-times-circle" aria-hidden="true"></i></a>-->
+        <a href="#" class="login-close">&#10006;</a>
+        <!--<a href="#" class="login-close"><i class="fa fa-times-circle" aria-hidden="true"></i></a>-->
 
-            <form action="/action_page.php">
+        <form id='userForm'>
+            <!--<form action="/response.php">-->
 
-                <div class="wrapp-login-form-username">
-                    <input class="login-form-username" type="text" placeholder="USERNAME" name="uname" required>
-                </div>
+            <div class="wrapp-login-form-username">
+                <input class="login-form-username" type="text" placeholder="USERNAME" name="uname" required>
+            </div>
 
-                <div class="wrapp-login-form-password">
-                    <input class="login-form-password" type="password" placeholder="PASSWORD" name="psw" required>
-                </div>
+            <div class="wrapp-login-form-password">
+                <input class="login-form-password" type="password" placeholder="PASSWORD" name="psw" required>
+            </div>
 
-                <div class="login-form-button-login"><button type="submit">LOG IN</button></div>
+            <div class="login-form-button-login"><button type="submit">LOG IN</button></div>
 
-                <a class="login-form-fogot-password" href="#">Fogot your password ?</a>
-            </form>
-        </div>
-        <div class="login-footer">
-            <a class="login-dont-have-account" href="#">Don't have an account ?</a>
-            <a class="login-sing-up" href="#">Sing up</a>
-        </div>
 
+            <!--<div class="login-form-button-login"><button type="submit">LOG IN</button></div>-->
+
+            <a class="login-form-fogot-password" href="#">Fogot your password ?</a>
+        </form>
     </div>
+    <div class="login-footer">
+        <a class="login-dont-have-account" href="#">Don't have an account ?</a>
+        <a class="login-sing-up" href="#">Sing up</a>
+    </div>
+
+</div>
+
+
+
+
+<br>
+<hr>
+<br>
+<div class="name-reciver">Отправкa post запросов 200 400 500</div>
+
+<div id='response'></div>
+
+<script>
+    $(document).ready(function(){
+        $('#userForm').submit(function(){
+
+            // show that something is loading
+            $('#response').html("<b>Loading response...</b>");
+
+            $.post('post_receiver.php', $(this).serialize(), function(data){
+
+//                console.log(data);
+
+                // show the response
+                $('#response').html( "<div class='reciver-green'>" + "HTTP status code: " + 200 + "</div>");
+
+            }).fail(function(error) {
+
+                console.log(error.status);
+
+                // just in case posting your form failed
+//                alert( "Posting failed." );
+                $('#response').html( "<div class='reciver-red'>" + "HTTP status code: " + error.status + "</div>");
+            });
+
+            // to prevent refreshing the whole page page
+            return false;
+
+        });
+    });
+</script>
+
+
+
 
 
 </body>
